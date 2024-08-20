@@ -1,0 +1,37 @@
+Merge = \l1 l2.
+	if IsEmpty l1 
+	  then l2
+	else if IsEmpty l2 
+	  then l1
+	else if Lt (Head l1) (Head l2)
+	  then (Head l1) : Merge (Tail l1) l2
+	  else (Head l2) : Merge l1 (Tail l2)
+	    
+
+IsEven = \n. IsZero (Mod n 2)
+
+
+FilterIndexHelper = \f l n.
+                    if IsEmpty l 
+                      then l
+                    else
+                      if f n 
+                      then Head l : FilterIndexHelper f (Tail l) (Suc n)
+                      else FilterIndexHelper f (Tail l) (Suc n)
+
+
+FilterIndex = \f l. FilterIndexHelper f l 0
+
+
+Split = \l. Pair (FilterIndex IsEven l) (FilterIndex (Not IsEven) l) 
+
+
+MergeSort = \l.
+            if Or (IsEmpty l) (IsEmpty (Tail l)) 
+              then l
+            else
+              let p = Split l in
+              Merge (MergeSort (First p)) (MergeSort (Second p))
+              
+              
+MergeSort [2, 5, 6, 3, 4, 7]
