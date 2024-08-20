@@ -9,21 +9,27 @@
 <lambda-declaration> := <lambda-var> '=' <lambda-expression>
 
 <lambda-expression>  := <lambda-application>
+                      | <lambda-term>
+
+<lambda-term>        := '\' <list-var> '.' <lambda-term>
                       | <if-expression>
+                      | <let-expression>
                       | <list-construction>
-                      | <literal>
-
-<lambda-application> := <lambda-term> <list-lambda-params>
-
-<lambda-term>        := '\' <list-var> '.' <lambda-expression>
                       | <lambda-var>
-                      | '(' <lambda-expression> ')'
+                      | <var>
                       | <literal>
+                      | '(' <lambda-expression> ')'
 
-<list-lambda-params> := <list-lambda-params> <lambda-term>
+
+<lambda-application> := <lambda-application> <lambda-term>
                       | <lambda-term>
 
 <if-expression>      := 'if' <lambda-expression> 'then' <lambda-expression> 'else' <lambda-expression>
+
+<let-expression>     := 'let' <list-declaration> 'in' <lambda-expression>
+
+<list-declaration>   := <lambda-declaration> ',' <lambda-declaration>
+                      | <list-declaration>
 
 <list-construction>  := <lambda-expression> ':' <lambda-expression>
 
