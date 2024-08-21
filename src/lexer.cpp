@@ -148,9 +148,9 @@ std::shared_ptr<Token> Lexer::next_token() {
     throw std::runtime_error("Unknown token encountered");
 }
 
-std::shared_ptr<Token> Lexer::get_token() const { return current_token; }
-
 const std::unordered_map<std::string, TokenType> Lexer::keywords = {
     {"if", TokenType::IF},
     {"then", TokenType::THEN},
-    {"else", TokenType::ELSE}};
+    {"else", TokenType::ELSE},
+    {"let", TokenType::LET},
+};

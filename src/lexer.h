@@ -11,6 +11,7 @@ enum class TokenType {
     IF,
     THEN,
     ELSE,
+    LET,
     LPAREN,         // (
     RPAREN,         // )
     LBRACKET,       // [
@@ -98,8 +99,6 @@ class Lexer {
     Lexer(const std::string& input);
 
     std::shared_ptr<Token> next_token();
-
-    std::shared_ptr<Token> get_token() const;
 };
 
 #endif  // LEXER_H
