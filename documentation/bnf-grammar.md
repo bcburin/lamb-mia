@@ -28,8 +28,8 @@
 
 <let-expression>     := 'let' <list-declaration> 'in' <lambda-expression>
 
-<list-declaration>   := <lambda-declaration> ',' <lambda-declaration>
-                      | <list-declaration>
+<list-declaration>   := <list-declaration> ',' <lambda-declaration>
+                      | <lambda-declaration>
 
 <list-construction>  := <lambda-expression> ':' <lambda-expression>
 
