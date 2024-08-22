@@ -8,7 +8,7 @@ Merge = \l1 l2.
 	  else (Head l2) : Merge l1 (Tail l2);
 	    
 
-IsEven = \n. IsZero (Mod n 2);
+IsEven = \n.(IsZero (Mod n 2));
 
 
 FilterIndexHelper = \f l n.
@@ -20,10 +20,10 @@ FilterIndexHelper = \f l n.
                       else FilterIndexHelper f (Tail l) (Suc n);
 
 
-FilterIndex = \f l. FilterIndexHelper f l 0;
+FilterIndex = \f l.(FilterIndexHelper f l 0);
 
 
-Split = \l. Pair (FilterIndex IsEven l) (FilterIndex (Not IsEven) l);
+Split = \l.(Pair (FilterIndex IsEven l) (FilterIndex (Not IsEven) l));
 
 
 MergeSort = \l.
