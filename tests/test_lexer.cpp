@@ -21,8 +21,9 @@ void test_lexer(const std::string& input,
            "Mismatch in the number of tokens.");
 
     for (size_t i = 0; i < tokens.size(); ++i) {
-        assert(tokens[i]->get_type() == expected_tokens[i] &&
-               "Token type mismatch.");
+        TokenType type = tokens[i]->get_type();
+        TokenType expected = expected_tokens[i];
+        assert(type == expected && "Token type mismatch.");
     }
 
     std::cout << "All tests passed for input: " << input << std::endl;
@@ -59,6 +60,55 @@ int main() {
     std::string input4 = "";
     std::vector<TokenType> expected_tokens4 = {TokenType::EOF_TOK};
     test_lexer(input4, expected_tokens4);
+
+    // Test 5: Testing other terminal symbols
+    std::string input5 = R"(LVar1 = \x y.(LVar2 x (LVar3 y) \z.z);)";
+    std::vector<TokenType> expected_tokens5 = {
+        TokenType::ID_LAMBDA_VAR, TokenType::EQ_SIGN,
+        TokenType::BACK_SLASH,    TokenType::ID_VAR,
+        TokenType::ID_VAR,        TokenType::DOT,
+        TokenType::LPAREN,        TokenType::ID_LAMBDA_VAR,
+        TokenType::ID_VAR,        TokenType::LPAREN,
+        TokenType::ID_LAMBDA_VAR, TokenType::ID_VAR,
+        TokenType::RPAREN,        TokenType::BACK_SLASH,
+        TokenType::ID_VAR,        TokenType::DOT,
+        TokenType::ID_VAR,        TokenType::RPAREN,
+        TokenType::SEMI_COLON,    TokenType::EOF_TOK};
+    test_lexer(input5, expected_tokens5);
+
+    // Test 6: Testing let expression
+    std::string input6 =
+        R"(F = \f l. let T = Tail l in if IsEmpty l then l else f (Head l) : T;)";
+    std::vector<TokenType> expected_tokens6 = {
+        TokenType::ID_LAMBDA_VAR,
+        TokenType::EQ_SIGN,
+        TokenType::BACK_SLASH,
+        TokenType::ID_VAR,
+        TokenType::ID_VAR,
+        TokenType::DOT,
+        TokenType::LET,
+        TokenType::ID_LAMBDA_VAR,
+        TokenType::EQ_SIGN,
+        TokenType::ID_LAMBDA_VAR,
+        TokenType::ID_VAR,
+        TokenType::IN,
+        TokenType::IF,
+        TokenType::ID_LAMBDA_VAR,
+        TokenType::ID_VAR,
+        TokenType::THEN,
+        TokenType::ID_VAR,
+        TokenType::ELSE,
+        TokenType::ID_VAR,
+        TokenType::LPAREN,
+        TokenType::ID_LAMBDA_VAR,
+        TokenType::ID_VAR,
+        TokenType::RPAREN,
+        TokenType::COLON,
+        TokenType::ID_LAMBDA_VAR,
+        TokenType::SEMI_COLON,
+        TokenType::EOF_TOK,
+    };
+    test_lexer(input6, expected_tokens6);
 
     return 0;
 }

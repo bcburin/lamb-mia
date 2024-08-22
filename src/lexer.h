@@ -11,12 +11,17 @@ enum class TokenType {
     THEN,
     ELSE,
     LET,
+    IN,
     LPAREN,         // (
     RPAREN,         // )
     LBRACKET,       // [
     RBRACKET,       // ]
     COLON,          // :
     COMMA,          // ,
+    DOT,            // .
+    SEMI_COLON,     // ;
+    BACK_SLASH,     //
+    EQ_SIGN,        // =
     EOF_TOK,        // End of file
     ID_VAR,         // <id-var>
     ID_LAMBDA_VAR,  // <id-lambda-var>

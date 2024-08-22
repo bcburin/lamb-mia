@@ -51,6 +51,18 @@ std::shared_ptr<Token> Lexer::next_token() {
         case ',':
             advance();
             return create_token(TokenType::COMMA, ",");
+        case '.':
+            advance();
+            return create_token(TokenType::DOT, ".");
+        case ';':
+            advance();
+            return create_token(TokenType::SEMI_COLON, ";");
+        case '\\':
+            advance();
+            return create_token(TokenType::BACK_SLASH, "\\");
+        case '=':
+            advance();
+            return create_token(TokenType::EQ_SIGN, "=");
     }
 
     // Keywords and Identifiers
@@ -105,4 +117,4 @@ const std::unordered_map<std::string, TokenType> Lexer::keywords = {
     {"then", TokenType::THEN},
     {"else", TokenType::ELSE},
     {"let", TokenType::LET},
-};
+    {"in", TokenType::IN}};
