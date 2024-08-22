@@ -5,7 +5,6 @@
 #include <memory>
 #include <string>
 #include <unordered_map>
-#include <variant>
 
 enum class TokenType {
     IF,
@@ -29,55 +28,14 @@ enum class TokenType {
 class Token {
    protected:
     TokenType _type;
-    std::string _token_str;
+    std::string _str;
 
    public:
-    using TokenValue = std::variant<std::string, char, int, float>;
-
     Token(TokenType type, const std::string& token_str);
 
-    virtual ~Token() = default;
+    TokenType get_type() const { return _type; };
 
-    TokenType get_type() const;
-
-    std::string get_string() const;
-
-    virtual TokenValue get_value() const { return get_string(); }
-};
-
-class IdVarToken : public Token {
-   public:
-    IdVarToken(const std::string& token_str);
-
-    TokenValue get_value() const override;
-};
-
-class IdLambdaVarToken : public Token {
-   public:
-    IdLambdaVarToken(const std::string& token_str);
-
-    TokenValue get_value() const override;
-};
-
-class CharacterToken : public Token {
-   public:
-    CharacterToken(const std::string& token_str);
-
-    TokenValue get_value() const override;
-};
-
-class IntegerToken : public Token {
-   public:
-    IntegerToken(const std::string& token_str);
-
-    TokenValue get_value() const override;
-};
-
-class FloatToken : public Token {
-   public:
-    FloatToken(const std::string& token_str);
-
-    TokenValue get_value() const override;
+    std::string get_string() const { return _str; };
 };
 
 class Lexer {
@@ -85,7 +43,6 @@ class Lexer {
     static const std::unordered_map<std::string, TokenType> keywords;
     std::string input;
     size_t pos;
-    std::shared_ptr<Token> current_token;
 
     char peek() const;
 
