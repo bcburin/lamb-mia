@@ -20,9 +20,18 @@ TEST_TARGET = $(BIN_DIR)/test.exe
 COMPILER_TARGET = $(BIN_DIR)/compiler.exe
 INTERPRETER_TARGET = $(BIN_DIR)/interpreter.exe
 
+# Detect operating system using OS variable
+ifeq ($(OS), Windows_NT)
+    MKDIR = mkdir
+    RUN_CMD = $(TEST_TARGET)
+else
+    MKDIR = mkdir -p
+    RUN_CMD = ./$(TEST_TARGET)
+endif
+
 # Make sure the bin directory exists
 $(BIN_DIR):
-	mkdir -p $(BIN_DIR)
+	$(MKDIR) $(BIN_DIR)
 
 # Rule to build the test executable
 $(TEST_TARGET): $(SRC_FILES) $(TEST_FILES) | $(BIN_DIR)
@@ -38,15 +47,23 @@ $(INTERPRETER_TARGET): $(SRC_FILES) $(INTERPRETER_SRC) | $(BIN_DIR)
 
 # Rule to run the tests
 test: $(TEST_TARGET)
-	./$(TEST_TARGET)
+	$(RUN_CMD)
 
 # Rule to run the compiler (adjust as needed)
 run_compiler: $(COMPILER_TARGET)
+ifeq ($(OS), Windows_NT)
+	$(COMPILER_TARGET)
+else
 	./$(COMPILER_TARGET)
+endif
 
 # Rule to run the interpreter (adjust as needed)
 run_interpreter: $(INTERPRETER_TARGET)
+ifeq ($(OS), Windows_NT)
+	$(INTERPRETER_TARGET)
+else
 	./$(INTERPRETER_TARGET)
+endif
 
 # Rule to clean up generated files
 clean:
